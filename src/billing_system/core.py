@@ -3,6 +3,11 @@ from typing import List, Dict, Optional
 from .models import Item, Order
 from .exceptions import VendorNotRegisteredError, EmptyOrderError
 from .payment.base import PaymentGateway
+from .pricing.discounts import DiscountStrategy
+from .pricing.tax import TaxCalculator
+from .shipping.calculator import ShippingCalculator
+from .notifications.base import NotificationService
+from .shipping.address import ShippingAddress
 
 class BillingSystem:
     """
@@ -11,13 +16,22 @@ class BillingSystem:
     Handles order creation, item addition, and payment distribution.
     """
     
-    def __init__(self, payment_gateway: Optional[PaymentGateway] = None):
+    def __init__(self, 
+                 payment_gateway: Optional[PaymentGateway] = None,
+                 discount_strategy: Optional[DiscountStrategy] = None,
+                 tax_calculator: Optional[TaxCalculator] = None,
+                 shipping_calculator: Optional[ShippingCalculator] = None,
+                 notification_service: Optional[NotificationService] = None):
         """
         Initialize the billing system with empty vendor and order registries.
         """
         self.vendors: Dict[str, str] = {}  # vendor_id: vendor_name
         self.orders: Dict[str, Order] = {}
         self.payment_gateway = payment_gateway
+        self.discount_strategy = discount_strategy
+        self.tax_calculator = tax_calculator
+        self.shipping_calculator = shipping_calculator
+        self.notification_service = notification_service
     
     def register_vendor(self, vendor_name: str) -> str:
         """
@@ -83,3 +97,19 @@ class BillingSystem:
             return self.payment_gateway.process_payment(order, payment_details)
             
         return order.vendor_payments
+    
+    def calculate_final_price(self, order: Order, shipping_address: ShippingAddress) -> float:
+        subtotal = order.total_amount
+        
+        if self.discount_strategy:
+            subtotal = self.discount_strategy.apply_discount(order)
+            
+        if self.tax_calculator:
+            tax = self.tax_calculator.calculate_tax(order, shipping_address.state)
+            subtotal += tax
+            
+        if self.shipping_calculator:
+            shipping = self.shipping_calculator.calculate_shipping(order, shipping_address)
+            subtotal += shipping
+            
+        return subtotal
