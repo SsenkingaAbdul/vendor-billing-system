@@ -1,4 +1,4 @@
-# Vendor Billing System
+# Vendor Billing Library
 
 A flexible Python library for managing multi-vendor billing and order processing with support for multiple payment gateways.
 
