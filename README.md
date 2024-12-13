@@ -1,25 +1,28 @@
 # Vendor Billing System
 
-## Overview
-A flexible Python library for managing multi-vendor billing and order processing.
-
-## Features
-- Register multiple vendors
-- Create and manage customer orders
-- Add items from different vendors
-- Automatic payment distribution
-- Comprehensive error handling
+A flexible Python library for managing multi-vendor billing and order processing with support for multiple payment gateways.
 
 ## Installation
 ```bash
 pip install vendor-billing-system
 ```
 
+## Features
+- Multiple payment gateway support (Stripe, PayPal)
+- Vendor management
+- Order processing
+- Automatic payment distribution
+- Comprehensive error handling
+
 ## Quick Start
 ```python
 from billing_system import BillingSystem, Item
 
-# Initialize the billing system
+from billing_system.payment.stripe_gateway import StripeGateway
+
+## Initialize the billing system
+
+stripe_gateway = StripeGateway("your_stripe_api_key")
 billing_system = BillingSystem()
 
 # Register vendors
