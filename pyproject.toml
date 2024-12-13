@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vendor-billing-system"
+version = "0.1.0"
+description = "A flexible billing system for managing multi-vendor orders"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+dependencies = [
+    "uuid",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/vendor-billing-system"
+
+[tool.setuptools.packages.find]
+where = ["src"]
