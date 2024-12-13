@@ -9,14 +9,12 @@ description = "A flexible billing system for managing multi-vendor orders"
 readme = "README.md"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
-dependencies = [
-    "uuid",
-]
+dependencies = []
 
 [project.optional-dependencies]
 dev = [
-    "pytest",
-    "mypy",
+    "pytest>=7.0.0",
+    "mypy>=1.0.0",
 ]
 
 [project.urls]
