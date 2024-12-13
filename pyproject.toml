@@ -20,7 +20,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/vendor-billing-system"
+Homepage = "https://github.com/SsenkingaAbdul/vendor-billing-system"
 
 [tool.setuptools.packages.find]
 where = ["src"]
